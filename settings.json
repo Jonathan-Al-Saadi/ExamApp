@@ -1,0 +1,18 @@
+{
+    "list": ["Diffusion", "ADC", "T1", "T2-starperfusion"],
+    "saveLocation": "/Volumes/JonathanA/MR perusion SAH pat/test2",
+    "pre_process_settings": {
+        "detrendSpikes": 1,
+        "sgolayFilt": 1,
+        "spatialSmoothing": 1,
+        "SpatialFilterSize": 3,
+        "SpatialFilterSigma": 0.5,
+        "SpatialFilterUpSamplFactor": 1,
+        "processed_saveName": "processed"
+    },
+    "BET_settings": {
+        "betMethod": "mri_synthstrip",
+        "freeSurferFlags": "",
+        "checkIMG": 1
+    }
+}
