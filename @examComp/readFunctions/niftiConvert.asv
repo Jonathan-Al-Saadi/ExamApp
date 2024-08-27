@@ -1,0 +1,74 @@
+function files = niftiConvert(options, collection, fileNumberInList)
+
+if ~nargin
+    warning("No options in.")
+    [fileNumberInList, list, collection] = fileListCreator();
+    options.saveLocation = uigetdir();
+end
+
+%Create a cell to store file paths
+files = cell(numel(fileNumberInList), 1);
+
+% Where are the files located?
+for i = 1:numel(fileNumberInList)
+    %Folder name in first column
+    files{i, 1} = fileparts(collection(fileNumberInList(i), :).Filenames{1}(1));
+    %File names in second column
+    files{i, 2} = collection(fileNumberInList(i), :).Filenames{1};
+    %SeriesDescription in third column
+    files{i,3} = char([collection(fileNumberInList(i), :).SeriesDescription]);
+end
+
+
+%% Converting files to nifti and storing them in tmp
+% Creating tmp folder and adding it to path
+mkdir tmp;
+addpath tmp;
+
+%Conversion
+saveLocationName = [options.saveLocation, '/', collection.StudyInstanceUID{1}]; % Define the save location
+mkdir(saveLocationName);
+addpath(saveLocationName);
+
+% Conversion
+for i = 1:height(files)
+    % Get all the dicom headers
+    headers = spm_dicom_headers(files{i, 2});
+    % Use SPM dicom2nifti
+    spm_dicom_convert(headers, 'all', 'series', 'nii', saveLocationName);
+    % Find where it was saved
+    pathName = [saveLocationName, '/' getlatestfile(saveLocationName)];
+    dirNames = dir(pathName);
+    fileName = {dirNames(~[dirNames.isdir]).name};
+    files{i, 4} = [pathName '/' fileName{1}]; % Store the path in files
+end
+
+%% Need to input a check for if there are several vols!!!
+for i = 1:height(files)
+    if contains(files{i, 3}, 'Forsk_Ax_Perf', 'IgnoreCase', true)
+        
+       % Specify the directory
+        directory = fileparts(files{i, 4});
+
+        % Get list of all files and folders in the specified directory
+        dirInfo = dir(directory);
+
+        % Remove folders from the list (keep only files)
+        isFile = ~[dirInfo.isdir];
+        fileList = dirInfo(isFile);
+
+        % Extract file names
+        fileNames = {fileList.name};
+
+        % Construct full file paths using cellfun
+        filePaths = cellfun(@(x) fullfile(directory, x), fileNames, 'UniformOutput', false);
+
+        % Merge
+        spm_file_merge(filePaths,  [directory '/merge.nii']);
+
+        %Correct name
+        files{i, 4} = [directory '/merge.nii'];
+    end
+end
+
+end

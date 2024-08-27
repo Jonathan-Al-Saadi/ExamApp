@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addOn>
+  <identifier>7b2e1c91-66c3-43df-9752-2dd330b5b7b5</identifier>
+  <displayType>Collection</displayType>
+  <translatedDisplayType>
+    <en_US>Collection</en_US>
+    <ja_JP>コレクション</ja_JP>
+    <ko_KR>컬렉션</ko_KR>
+    <zh_CN>集合</zh_CN>
+  </translatedDisplayType>
+  <name>imtool3D_td</name>
+  <author>Tanguy</author>
+  <version>1.0.4</version>
+  <downloadUrl>https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/7b2e1c91-66c3-43df-9752-2dd330b5b7b5/b3f8432b-9510-4a71-bdb5-95dabb9a6525/packages/zip?src=addons_ml_desktop_install&amp;profile_id=18971985&amp;license=40623496&amp;release_family=R2021b</downloadUrl>
+  <licenseUrl>https://addons.mathworks.com/registry/v1/7b2e1c91-66c3-43df-9752-2dd330b5b7b5/1.0.4.0/-/license</licenseUrl>
+  <previewImageUrl>https://www.mathworks.com/responsive_image/160/120/0/0/0/cache/matlabcentral/mlc-downloads/downloads/7b2e1c91-66c3-43df-9752-2dd330b5b7b5/b3f8432b-9510-4a71-bdb5-95dabb9a6525/images/1610098218.png</previewImageUrl>
+  <releaseNotesUrl>https://www.mathworks.com/add-ons/7b2e1c91-66c3-43df-9752-2dd330b5b7b5/b3f8432b-9510-4a71-bdb5-95dabb9a6525/releaseNotes</releaseNotesUrl>
+  <installationFolder>Collections</installationFolder>
+</addOn>
