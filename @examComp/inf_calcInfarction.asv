@@ -37,12 +37,13 @@ actualVolume = numberOfVoxels * pixelDimensions(1) * pixelDimensions(2) * pixelD
 
 %Convert to mL
 if strcmp(info.SpaceUnits, 'Millimeter')
-    actualVolumeInML = actualVolume/1000;
+    
 else
     print("It is not in Millimeter!!!!!")
 end
 
-infarctionMasks.volume = actualVolumeInML;
+
+
 
 
 end

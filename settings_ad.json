@@ -1,6 +1,6 @@
 {
-    "list": ["Diffusion", "ADC", "T1", "TTP", "CBF"],
-    "saveLocation": "/Volumes/JonathanA/TestWithCarolyn",
+    "list": ["Diffusion", "ADC", "T1", "T2-starperfusion"],
+    "saveLocation": "/Volumes/JonathanA/MR perusion SAH pat/test2",
     "pre_process_settings": {
         "detrendSpikes": 1,
         "sgolayFilt": 1,
