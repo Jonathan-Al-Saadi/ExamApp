@@ -81,10 +81,16 @@ classdef examComp < handle
             end
         end
 
-        function viewVol
-            
+        function tool = viewVol(examObj)
+            vol_path = volPicker(examObj);
+            tool = imtool3D(niftiread(vol_path));
         end
-        
+
+        %Check if perfusion volumes exists and create them
+        function perf_check_internal(examObj)
+            examObj.volCell = perf_check(examObj.volCell, examObj.options, examObj.props.patientDir);
+        end
+
         %% Get Functions
         function volCell = getVolCells(examObj)
             volCell = examObj.volCell;
@@ -137,8 +143,8 @@ classdef examComp < handle
             perf_setTTPCutoff(varargin{:});
         end
 
-        function calcTNTTP(varargin)
-            perf_calcTNTTP(varargin{:});
+        function calcTTP(varargin)
+            perf_calcTTP(varargin{:});
         end
             
         
@@ -167,7 +173,7 @@ classdef examComp < handle
     methods (Access = private)
         examObj = perf_constructor(varargin);
         perf_setTTPCutoff(varargin);
-        perf_calcTNTTP(varargin);
+        perf_calcTTP(varargin);
     end
 
 end

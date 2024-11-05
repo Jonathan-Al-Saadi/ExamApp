@@ -1,17 +1,17 @@
-function [ttpVol, cbfVol, cbvVol, maxRelEnhanceVol, noiseVol, ce] = perf_calcTNTTP(examObj)
+function [ttpVol, cbfVol, cbvVol, maxRelEnhanceVol, noiseVol, ce] = perf_calcTTP(examObj)
 
   %Set variables and get everything for the function
   [ttpLow, ttpHigh] = examObj.getTimeCutoffs;
   
-  truncLow = ttpLow -10;
-  truncHigh = ttpHigh +10;
+  %truncLow = ttpLow -10;
+  %truncHigh = ttpHigh +10;
   
-  [vol, info] = examObj.getVol('R2Star');
+  [vol, info, outVolMask, outVolMasked] = examObj.getVol('R2Star');
 
   %Truncate the volume for calculation
-  vol = vol(:, :, :, truncLow:truncHigh-1);
+  %outVolMasked = outVolMasked(:, :, :, truncLow:truncHigh-1);
 
-  [M, I] = max(vol, [], 4);
+  [M, I] = max(outVolMasked, [], 4);
 
   ttpVol = I;
   cbfVol = M;

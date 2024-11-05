@@ -1,6 +1,6 @@
 {
-    "list": ["Diffusion", "ADC", "T1", "T2-starperfusion", "TTP", "Tmax", "CTH", "CBF", "Perfusion", "T2FLAIR", "COV", "O2"],
-    "saveLocation": "/Volumes/JonathanA/MR perusion SAH pat/allPat",
+    "list": ["DWI", "ADC", "T1", "T-Max", "CTH", "COV", "MTT", "TTP", "CBF", "CBV"],
+    "saveLocation": "/Volumes/JohanLundbe/Test2",
     "pre_process_settings": {
         "detrendSpikes": 1,
         "sgolayFilt": 1,

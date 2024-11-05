@@ -22,7 +22,7 @@ end
 
 %% Converting files to nifti and storing them in saveLocationName
 %Conversion
-saveLocationName = [options.saveLocation, '/', collection.StudyInstanceUID{1}, '/', 'original']; % Define the save location
+saveLocationName = [options.saveLocation, '/', collection(fileNumberInList(1), :).StudyInstanceUID{1}, '/', 'original']; % Define the save location
 mkdir(saveLocationName);
 addpath(saveLocationName);
 
@@ -31,12 +31,9 @@ for i = 1:height(files)
     % Get all the dicom headers
     headers = spm_dicom_headers(files{i, 2});
     % Use SPM dicom2nifti
-    spm_dicom_convert(headers, 'all', 'series', 'nii', saveLocationName);
-    % Find where it was saved
-    pathName = [saveLocationName, '/' getlatestfile(saveLocationName)];
-    dirNames = dir(pathName);
-    fileName = {dirNames(~[dirNames.isdir]).name};
-    files{i, 4} = [pathName '/' fileName{1}]; % Store the path in files
+    out = spm_dicom_convert(headers, 'all', 'series', 'nii', saveLocationName);
+    %Save
+    files{i, 4} = out.files{1}; % Store the path in files
 end
 
 end

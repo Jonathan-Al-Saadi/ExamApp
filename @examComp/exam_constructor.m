@@ -54,7 +54,7 @@ end
 
 %Get the props
 if ~exist('props', 'Var')
- props = createPropsFunc(collection, options);
+ props = createPropsFunc(collection, options, fileNumberInList);
 end
 
 if ~exist('stats', 'Var')
@@ -80,22 +80,22 @@ function [collection, fileNumberInList, volCell] = getCollectionAndVols(options)
         collection = CollectionCreator();
 
         %Find the files
-        fileNumberInList = fileListCreator(options, collection);
+        [fileNumberInList, fileNames] = fileListCreator(options, collection);
 
         %Convert the volumes to nifti and save the locations in a cell
         volCell = getVolume(options, collection, fileNumberInList);
 
 end
 
-function props = createPropsFunc(collection, options)
+function props = createPropsFunc(collection, options, fileNumberInList)
     props = struct();
 
     % Get patient ID
-    props.metadata = dicominfo(collection.Filenames{1}(1));
-    props.studyDate = collection.StudyDateTime(1);
+    props.metadata = dicominfo(collection.Filenames{fileNumberInList(1)}(1));
+    props.studyDate = collection.StudyDateTime(fileNumberInList(1));
     props.patientId = [props.metadata.PatientBirthDate '_' datestr(props.studyDate, 'yyyy_mm_dd_HH_MM')];
     props.sex = collection.PatientSex(1);
-    props.patientDir = [options.saveLocation filesep collection.StudyInstanceUID{1}];
+    props.patientDir = [options.saveLocation filesep collection.StudyInstanceUID{fileNumberInList(1)}];
 end
 
 function options = readOptions()

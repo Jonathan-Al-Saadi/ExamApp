@@ -13,7 +13,7 @@ function [infarctionMasks] = inf_calcInfarction(examObj)
 
 %% Suggesting areas for the infarction.
 %Get standard infarction mask
-mask = calcStandardInfarction(DWI, ADC, 1);
+[mask, stdMultiplier] = calcStandardInfarction(DWI, ADC, 1);
 
 %% Write the masks to disk as niftifiles
 maskPath = examObj.writeVol('infarction_mask', int16(mask), info_dwi);
@@ -44,10 +44,12 @@ end
 
 infarctionMasks.volume = actualVolumeInML;
 
+infarctionMasks.stdMultiplier = stdMultiplier;
+
 
 end
 
-function mask = calcStandardInfarction(DWI, ADC, userInput)
+function [mask, stdMultiplier] = calcStandardInfarction(DWI, ADC, userInput)
 %% Calculating mean and STD standard DWI
 %set all outside mask = NaN;
 DWI(DWI == 0) = NaN;
@@ -69,21 +71,75 @@ StdADC = std(double(ADC), 0, 'all', 'omitnan');
 
 %Checking if those voxels are dark on ADC (3STD)
 %maskedADC = ADC < (MeanADC - 1*StdADC);
-
+stdMultiplier = 5;
 maskedADC = ADC < (620);
 
-maskDWI = DWI.*maskedADC > (MeanDWI + 3*StdDWI);
+maskDWI = DWI.*maskedADC > (MeanDWI + stdMultiplier*StdDWI);
+
+
 
 %Suggesting infarction area
 mask = (maskDWI & maskedADC) == 1;
 
+
+
 if userInput
-    %Taking user input.
-    standard = imtool3D(DWI);
-    standard.setMask(mask);
-    pause
-    mask = standard.getMask;
+    
+   [mask, stdMultiplier] = checkImg(DWI, mask, MeanDWI, StdDWI, maskedADC);
+
 end
 
 
+end
+
+function [mask, stdMultiplier] = checkImg(DWI, mask, MeanDWI, StdDWI, maskedADC)
+
+%Creating imtool3D window
+tool = imtool3D(DWI);
+tool.setMask(mask);
+user_answer = askUser();
+%Default stdMultiplier
+
+stdMultiplier = 5;
+
+
+while user_answer ~= 1
+    %Change std-val or let user edit accordingly
+    switch user_answer
+        case 2
+            stdMultiplier = stdMultiplier -1;
+        case 3
+            stdMultiplier = stdMultiplier + 1;
+        case 4
+            mask = tool.getMask;
+            user_answer = 1;
+    end
+
+    if user_answer ~= 4 && user_answer ~= 1
+    
+        maskDWI = DWI.*maskedADC > (MeanDWI + stdMultiplier*StdDWI);
+
+        %Suggesting infarction area
+        mask = (maskDWI & maskedADC) == 1;
+
+        %Show image
+        tool.setMask(mask);
+
+        user_answer = askUser();
+    end
+end
+
+close all
+end
+
+function user_answer = askUser()
+prompt = "Do the following: \n" + ...
+    "(1) Accept [Default]\n" + ...
+    "(2) Include more infarction\n" + ...
+    "(3) Include less infarction\n" + ...
+    "(4) Manual correction\n" ;
+user_answer = input(prompt);
+if isempty(user_answer)
+    user_answer = 1;
+end
 end

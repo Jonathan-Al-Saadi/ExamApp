@@ -1,4 +1,4 @@
-function files = getVolume(options, collection, fileNumberInList)
+ function files = getVolume(options, collection, fileNumberInList)
 %Function that finds volumes and converts to NIFTI. Output is a cell of
 %locations
 

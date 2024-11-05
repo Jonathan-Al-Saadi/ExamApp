@@ -110,7 +110,7 @@ end
         %Using the extracted image
         stillImage = volcell{volFlagNumberStill, 5};
 
-        %Not extracted for better performance
+        %(Not? or) extracted for better performance
         movingImage= volcell{volFlagNumberMoving, 5};
 
         if strcmp(maskIncludeflag, 'y')

@@ -310,6 +310,8 @@ classdef examList < handle
             function hideFig(examListObj, src, event)
                 src.Visible = 'off';
             end
+            
+            
 
             function giveAlert(examListObj, src, event)
                 disp(['Closing']);

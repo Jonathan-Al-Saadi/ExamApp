@@ -60,7 +60,7 @@ end
         csf_flag = '';
 
         while user_answer ~= 1
-            %Change f-val or let user edit accordingly
+            %Change B-val or let user edit accordingly
             switch user_answer
                 case 2
                     b_val = b_val + 1;
